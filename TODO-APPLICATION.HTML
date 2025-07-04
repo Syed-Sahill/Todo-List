@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Todo Application</title>
+        <style>
+            body{
+                color: white;
+                font-family:"Urbanist" , sans-serif;
+                background: #000;
+                padding: 0;
+                margin: 0;
+                font-size:20px;
+                width: 100%;
+                height: 100vh;
+            }
+
+            main{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-top:10vh;
+            }
+
+            h1{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 4rem;
+                /* margin-top:40px;
+                margin-left: -5%;
+                margin-bottom: -10px;
+                font-size:30px; */
+            }
+
+            li{
+                cursor: pointer;
+                list-style-type: circle;
+                /* margin: 2rem 0; */
+                margin:3vh 0;
+                text-transform: capitalize;
+                font-weight: 500;
+                width:24rem;
+                font-size:16px;
+                height:auto;
+            }
+
+            li:hover{
+                color: #feac5e;
+            }
+
+            .main-todo-div{
+                width:10vh;
+                display: grid;
+                grid-template-columns: 1fr 0.3fr;
+                align-items: center;
+            }
+
+            .todo-list-elem{
+                margin-top: 1rem;
+            }
+            .deleteBtn{
+                background: #f5ee62;
+                border: none;
+                width:6rem;
+                /* box-sizing: border-box; */
+                height:30px;
+                padding: 5px;
+                font-size:13px;
+                letter-spacing:1px;
+                border-radius: 10rem;
+                cursor: pointer;
+                margin-left:-3.5rem;
+            }
+
+            .deleteBtn:hover{
+                 box-shadow: inset 0 0 0 0.2rem #f5ee62;
+                background: black;
+                color: #f5ee62;
+                transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+
+            #inputValue{
+                border: none;
+                border-radius:5px;
+                width:300px;
+                height:30px;
+                font-size:18px;
+            }
+
+            #main-todo-elem{
+                /* width: 36rem; */
+                color: white;
+            }
+            .btn{
+                background: #f5ee62;
+                border: none;
+                width:7rem;
+                /* box-sizing: border-box; */
+                height:2rem;
+                letter-spacing:1px;
+                border-radius: 10rem;
+                font-size: 13px;
+                cursor: pointer;
+                margin-top: -10px;
+                margin-left: 2vh;
+                padding: 0.5rem;
+            }
+
+            .btn:hover{
+                /* border: 3px solid #f5ee62; */
+                box-shadow: inset 0 0 0 0.2rem #f5ee62;
+                background: black;
+                color: #f5ee62;
+                transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+            
+
+            @media (width <= 475px) {
+                main{
+                    /* margin-left: 2rem; */
+
+                    & h1{
+                        margin-right: 7rem
+                    }
+
+                    & .todo-list-elem{
+                        width: 20rem;
+
+                        & li{
+                            width: 19rem;
+                        }
+                    }
+                }
+                .input-container{
+                    width: 25rem;
+
+                    & #inputValue{
+                        
+                         width: 13.5rem;
+                    }
+                }
+            }
+
+            @media (width <= 420px) {
+                main {
+                    margin-left: 3rem;
+
+                    & .todo-list-elem {
+                    /* margin-left: 2rem; */
+                    font-size: 1.5rem;
+
+                    & h1{
+                        font-size: 1.8rem;
+                        margin-right: 1rem;
+                    }
+                }
+                }
+
+                .input-container{
+                    width: 25rem;
+
+                    & .btn{
+                        width:6rem;
+                        height:2rem;
+                    }
+
+                    & #inputValue{
+                        /* margin-left: 2rem; */
+                        width: 15rem;
+                    }
+                }
+                .todo-list-elem{
+                    width: 10rem;
+
+                    & li{
+                        width: 15rem;
+                    }
+                }
+            }
+
+            @media (width <= 390px) {
+
+                #inputValue{
+                        width: 2rem;
+                    }
+            }
+            @media (width <= 380px) {
+                main{
+                    margin-left: 0;
+                }
+                .input-container{
+                    width: 10rem;
+                }
+                #inputValue{
+                    width: 5rem;
+                }
+                .btn{
+                    margin-left: 5rem;
+                    margin-top: 1rem;
+                }
+
+                li{
+                    width: 10rem;
+                }
+                
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <h1>Todo List</h1>
+        <br>
+        <form action="">
+            <div class="input-container">
+                <input type="text" name="" id="inputValue">
+                <button class="btn">Add Todo</button>
+            </div>
+            <section class="todo-list-elem"></section>
+        </form>
+        </main>
+
+        <script>
+            const mainTodoElem = document.querySelector(".todo-list-elem");
+            const inputValue = document.querySelector("#inputValue");
+            const deleteBtn = document.querySelector(".deleteBtn");
+
+            const getTodoListFromLocal = () =>{
+                return JSON.parse(localStorage.getItem("sahilTodoList"));
+            }
+
+            const addToDoListLocalStorage = (localTodoList) =>{
+                return localStorage.setItem("sahilTodoList" , JSON.stringify(localTodoList));
+            }
+            
+            localTodoList = getTodoListFromLocal() || [];
+
+
+            const addTodoDynamicElem = (currElem) =>{
+                const divElem = document.createElement("div");
+                divElem.classList.add("main-todo-div")
+                divElem.innerHTML = `<li>${currElem}</li> <button class="deleteBtn">Delete</button>`
+                mainTodoElem.append(divElem);
+            }
+
+            const addTodoList = (e) => {
+             e.preventDefault();
+
+                const todoListValue = inputValue.value.trim();
+                inputValue.value = "";
+
+                if(todoListValue !== "" && !localTodoList.includes(todoListValue)){
+
+                localTodoList.push(todoListValue);
+                localTodoList = [...new Set(localTodoList)];
+                console.log(localTodoList);
+                localStorage.setItem("sahilTodoList" , JSON.stringify(localTodoList));
+
+
+                // const divElem = document.createElement("div");
+                // divElem.classList.add("main-todo-div")
+                // divElem.innerHTML = <li>${inputValue.value}</li> <button class="deleteBtn">Delete</button>
+                // mainTodoElem.append(divElem);
+                addTodoDynamicElem(todoListValue);
+             }
+            }
+
+
+            const showTodoList = () =>{
+                console.log(localStorage);
+
+                    localTodoList.forEach((currentElem) =>{
+                        addTodoDynamicElem(currentElem);
+                    })
+            }
+
+            showTodoList();
+
+            const removeTodoElem = (e) =>{
+                const todoToRemove = e.target;
+                let todoListContent = todoToRemove.previousElementSibling.innerText;
+                let parentElem = todoToRemove.parentElement;
+                console.log(todoListContent);
+                localTodoList = localTodoList.filter((currTodo) => {
+                    console.log(currTodo);
+                    return currTodo !== todoListContent.toLowerCase();
+                });
+
+                // addToDoListLocalStorage(localStorage);
+
+                parentElem.remove();
+
+                console.log(localTodoList);
+            }
+
+            mainTodoElem.addEventListener("click", (e) =>{
+                e.preventDefault();
+                if(e.target.classList.contains("deleteBtn")){
+                    removeTodoElem(e);
+                }
+            });
+            
+            document.querySelector(".btn").addEventListener("click" ,(e) =>{
+                addTodoList(e);
+            });
+
+            // document.deleteBtn.addEventListener("click" ,() =>{
+            //     inputValue.innerText = "";
+            // })
+        </script>
+
+        
+    </body>
+</html>
