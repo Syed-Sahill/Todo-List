@@ -118,6 +118,7 @@
             }
             
 
+
             @media (width <= 475px) {
                 main{
                     /* margin-left: 2rem; */
@@ -181,32 +182,45 @@
                 }
             }
 
-            @media (width <= 390px) {
-
-                #inputValue{
-                        width: 2rem;
-                    }
-            }
             @media (width <= 380px) {
                 main{
                     margin-left: 0;
-                }
-                .input-container{
-                    width: 10rem;
-                }
-                #inputValue{
-                    width: 5rem;
-                }
-                .btn{
-                    margin-left: 5rem;
-                    margin-top: 1rem;
-                }
 
-                li{
-                    width: 10rem;
-                }
+                    & .todo-list-elem {
+
+                        & li{
+                            width: 15rem;
+                        }
+                    }
                 
+                
+                & .input-container{
+                    width: 20rem;
+
+                    & #inputValue{
+                    width: 10rem;
+                   }
+                }
             }
+        }
+
+        @media (width <= 356px) {
+            main{
+                padding: 2rem;
+
+                & h1{
+                    margin-right: 2rem;
+                }
+            }
+        }
+
+        @media (width <= 320px) {
+            main{
+                padding: 2rem;
+                margin-left: 2rem;
+            }
+        }
+
         </style>
     </head>
     <body>
@@ -223,6 +237,7 @@
         </main>
 
         <script>
+            localStorage.removeItem("sahilTodoList");
             const mainTodoElem = document.querySelector(".todo-list-elem");
             const inputValue = document.querySelector("#inputValue");
             const deleteBtn = document.querySelector(".deleteBtn");
